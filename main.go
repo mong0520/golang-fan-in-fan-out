@@ -83,12 +83,10 @@ func main() {
 	defer elapsed()()
 
 	// generate tasks
-	tasks := Tasks{
-		{Name: "Task1", Input: 10, WorkFunc: square},
-		{Name: "Task2", Input: 20, WorkFunc: square},
-		{Name: "Task3", Input: 30, WorkFunc: square},
-		{Name: "Task4", Input: 40, WorkFunc: square},
-		{Name: "Task5", Input: 50, WorkFunc: square},
+	taskCount := 5
+	tasks := Tasks{}
+	for i := 1; i <= taskCount; i++ {
+		tasks = append(tasks, Task{Name: fmt.Sprintf("Task %d", i), Input: i, WorkFunc: square})
 	}
 	tasksCh := startTasks(tasks)
 
@@ -102,6 +100,6 @@ func main() {
 	// fan in tasks
 	resultCh := collect(taskResultCh)
 	for result := range resultCh {
-		fmt.Printf("-> Task: %s is completed, input = %d, output = %d\n", result.Name, result.Input, result.Output)
+		fmt.Printf("-> %s is completed, input = %d, output = %d\n", result.Name, result.Input, result.Output)
 	}
 }
